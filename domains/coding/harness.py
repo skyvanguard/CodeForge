@@ -1,16 +1,20 @@
 import argparse
 import json
 import os
+import subprocess
 import sys
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
-import docker
-
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 from domains.coding.utils import QUESTION_ID, MODEL, format_input_dict
+
+
+def is_inside_docker():
+    """Detect if we're running inside a Docker container."""
+    return os.path.exists("/.dockerenv")
 
 
 def load_dataset(num_samples=-1):
@@ -22,7 +26,63 @@ def load_dataset(num_samples=-1):
     return dataset
 
 
+def _parse_pytest_output(output_text):
+    """Parse pytest output to extract pass/fail/error counts."""
+    passed = output_text.count(" PASSED")
+    failed = output_text.count(" FAILED")
+    errors = output_text.count(" ERROR")
+    total = passed + failed + errors
+    return {
+        "passed": passed,
+        "failed": failed,
+        "errors": errors,
+        "total": total,
+        "output": output_text[:2000],
+    }
+
+
+def run_solution_local(solution_code, test_code, timeout=30):
+    """Run solution directly via subprocess (used inside Docker containers)."""
+    sandbox_dir = None
+    try:
+        sandbox_dir = tempfile.mkdtemp(prefix="codeforge_sandbox_")
+
+        with open(os.path.join(sandbox_dir, "solution.py"), "w") as f:
+            f.write(solution_code)
+        with open(os.path.join(sandbox_dir, "test_solution.py"), "w") as f:
+            f.write(test_code)
+
+        result = subprocess.run(
+            ["pytest", "-v", "--tb=short", "test_solution.py"],
+            cwd=sandbox_dir,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+
+        output_text = result.stdout + result.stderr
+        parsed = _parse_pytest_output(output_text)
+        parsed["exit_code"] = result.returncode
+        return parsed
+
+    except subprocess.TimeoutExpired:
+        return {
+            "passed": 0, "failed": 0, "errors": 1, "total": 1,
+            "output": f"Timeout after {timeout}s", "exit_code": -1,
+        }
+    except Exception as e:
+        return {
+            "passed": 0, "failed": 0, "errors": 1, "total": 1,
+            "output": str(e)[:2000], "exit_code": -1,
+        }
+    finally:
+        if sandbox_dir:
+            import shutil
+            shutil.rmtree(sandbox_dir, ignore_errors=True)
+
+
 def run_solution_in_docker(client, solution_code, test_code, timeout=30):
+    """Run solution in a Docker sandbox (used when running on host)."""
     container = None
     try:
         import io
@@ -60,30 +120,14 @@ def run_solution_in_docker(client, solution_code, test_code, timeout=30):
         )
 
         output_text = output.decode("utf-8") if isinstance(output, bytes) else str(output)
-
-        # Parse results
-        passed = output_text.count(" PASSED")
-        failed = output_text.count(" FAILED")
-        errors = output_text.count(" ERROR")
-        total = passed + failed + errors
-
-        return {
-            "passed": passed,
-            "failed": failed,
-            "errors": errors,
-            "total": total,
-            "output": output_text[:2000],
-            "exit_code": exit_code,
-        }
+        parsed = _parse_pytest_output(output_text)
+        parsed["exit_code"] = exit_code
+        return parsed
 
     except Exception as e:
         return {
-            "passed": 0,
-            "failed": 0,
-            "errors": 1,
-            "total": 1,
-            "output": str(e)[:2000],
-            "exit_code": -1,
+            "passed": 0, "failed": 0, "errors": 1, "total": 1,
+            "output": str(e)[:2000], "exit_code": -1,
         }
 
     finally:
@@ -93,6 +137,13 @@ def run_solution_in_docker(client, solution_code, test_code, timeout=30):
                 container.remove(force=True)
             except Exception:
                 pass
+
+
+def run_solution(docker_client, solution_code, test_code, timeout=30):
+    """Run solution — auto-selects Docker sandbox or local subprocess."""
+    if is_inside_docker():
+        return run_solution_local(solution_code, test_code, timeout)
+    return run_solution_in_docker(docker_client, solution_code, test_code, timeout)
 
 
 def evaluate_problem(problem, agent_path, docker_client):
@@ -110,12 +161,7 @@ def evaluate_problem(problem, agent_path, docker_client):
 
     solution_code = str(prediction) if prediction else ""
 
-    # Run tests in Docker sandbox
-    result = run_solution_in_docker(
-        docker_client,
-        solution_code,
-        problem["test_code"],
-    )
+    result = run_solution(docker_client, solution_code, problem["test_code"])
 
     return {
         "problem_id": problem["problem_id"],
@@ -134,7 +180,12 @@ def harness(
     num_workers=3,
 ):
     dataset = load_dataset(num_samples)
-    docker_client = docker.from_env()
+
+    # Only connect to Docker if running on host (not inside a container)
+    docker_client = None
+    if not is_inside_docker():
+        import docker
+        docker_client = docker.from_env()
 
     if run_id is None:
         run_id = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
