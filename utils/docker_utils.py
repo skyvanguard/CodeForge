@@ -195,8 +195,8 @@ def copy_from_container(
                 f"Source path not found in container: {source_path}"
             )
 
-        result = container.exec_run(f"stat -f '%HT' {source_path}")
-        is_file = result.output.decode().strip() == "Regular File"
+        result = container.exec_run(f"stat --format='%F' {source_path}")
+        is_file = result.output.decode().strip() == "regular file"
 
         dest_path.parent.mkdir(parents=True, exist_ok=True)
 
