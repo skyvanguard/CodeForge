@@ -141,13 +141,11 @@ def chat_with_agent(
                     tool_input = tool_use['tool_input']
                     tool_output = process_tool_call(tools_dict, tool_name, tool_input)
                     num_tool_calls += 1
-                    tool_msg = f'''<json>
-    {{
-        "tool_name": "{tool_name}",
-        "tool_input": {tool_input},
-        "tool_output": "{tool_output}"
-    }}
-    </json>'''.strip()
+                    tool_msg = "<json>\n" + json.dumps({
+                        "tool_name": tool_name,
+                        "tool_input": tool_input,
+                        "tool_output": tool_output,
+                    }, indent=4) + "\n</json>"
                     logging(f"Tool output: {repr(tool_msg)}")
                     tool_msgs.append(tool_msg)
 

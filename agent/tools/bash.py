@@ -128,15 +128,18 @@ def filter_error(error):
         i += 1
     return '\n'.join(filtered_lines).strip()
 
+_bash_session = None
+
 async def tool_function_call(command):
-    """Execute a command in the bash shell."""
+    """Execute a command in a persistent bash shell."""
+    global _bash_session
     try:
-        bash_session = BashSession()
+        if _bash_session is None or _bash_session._timed_out:
+            _bash_session = BashSession()
+        if not _bash_session._started:
+            await _bash_session.start()
 
-        if not bash_session._started:
-            await bash_session.start()
-
-        output, error = await bash_session.run(command)
+        output, error = await _bash_session.run(command)
         error = filter_error(error)
         result = ""
         if output:
@@ -145,6 +148,7 @@ async def tool_function_call(command):
             result += "\nError:\n" + error
         return result.strip()
     except Exception as e:
+        _bash_session = None
         return f"Error: {str(e)}"
 
 def tool_function(command):

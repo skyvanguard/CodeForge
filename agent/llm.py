@@ -34,9 +34,10 @@ def get_response_from_llm(
     if msg_history is None:
         msg_history = []
 
-    # Convert text to content, compatible with LITELLM API
+    # Convert text to content, compatible with LITELLM API (without mutating original)
     msg_history = [
-        {**msg, "content": msg.pop("text")} if "text" in msg else msg
+        {k: v for k, v in msg.items() if k != "text"} | {"content": msg["text"]}
+        if "text" in msg else msg
         for msg in msg_history
     ]
 
