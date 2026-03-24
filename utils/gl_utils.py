@@ -200,7 +200,11 @@ def apply_diffs_container(container, patch_files, repo_name=REPO_NAME, verbose=T
     patch_files = patch_files or []
     for patch_file in patch_files:
         patch_content = read_file(patch_file)
+        if not patch_content or not patch_content.strip():
+            continue
         filtered_patch = filter_patch_by_files(patch_content, ["domains/"])
+        if not filtered_patch or not filtered_patch.strip():
+            continue
 
         import tempfile
         with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:

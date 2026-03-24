@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import posixpath
 from datetime import datetime
 
 import docker
@@ -42,7 +43,7 @@ def eval_produced_agent(
     for split in splits:
         safe_log(f"Evaluating the produced agent on {domain} {eval_samples} {split}...")
         eval_run_id = f"{domain}_eval" if split == "train" else f"{domain}_eval_{split}"
-        container_evaloutput_folder = os.path.join(container_output_folder, eval_run_id)
+        container_evaloutput_folder = posixpath.join(container_output_folder, eval_run_id)
 
         # Run harness
         command = [
@@ -61,7 +62,7 @@ def eval_produced_agent(
         command = [
             "timeout", "3600",
             "python", "-m", "domains.coding.report",
-            "--dname", os.path.join(container_output_folder, eval_run_id),
+            "--dname", posixpath.join(container_output_folder, eval_run_id),
         ]
         exec_result = container.exec_run(cmd=command, workdir=f"/{REPO_NAME}")
         log_container_output(exec_result)
@@ -83,7 +84,7 @@ def copy_prev_eval_to_container(
 
     prev_eval_path = os.path.normpath(prev_eval_path)
     tail = os.path.join(*prev_eval_path.split(os.sep)[-1:])
-    container_prev_eval_path = os.path.join(container_output_folder, tail)
+    container_prev_eval_path = posixpath.join(container_output_folder, tail)
 
     container.exec_run(["mkdir", "-p", container_output_folder], workdir="/")
     copy_to_container(
@@ -156,7 +157,7 @@ def generate(
             "python", "run_meta_agent.py",
             "--repo_path", f"/{REPO_NAME}",
             "--evals_folder", container_prev_eval_path,
-            "--chat_history_file", os.path.join(container_output_folder, "meta_chat_history.md"),
+            "--chat_history_file", posixpath.join(container_output_folder, "meta_chat_history.md"),
             "--git_dir", f"/{REPO_NAME}",
             "--base_commit", commit_hash,
             "--outdir", container_output_folder,
@@ -178,7 +179,7 @@ def generate(
             patch_file = os.path.join(gen_output_dir, "model_patch.diff")
             copy_from_container(
                 container,
-                source_path=os.path.join(container_output_folder, "model_patch.diff"),
+                source_path=posixpath.join(container_output_folder, "model_patch.diff"),
                 dest_path=patch_file,
             )
             curr_patch_files = [patch_file]
@@ -188,7 +189,7 @@ def generate(
         try:
             copy_from_container(
                 container,
-                source_path=os.path.join(container_output_folder, "meta_chat_history.md"),
+                source_path=posixpath.join(container_output_folder, "meta_chat_history.md"),
                 dest_path=os.path.join(gen_output_dir, "meta_chat_history.md"),
             )
         except Exception:

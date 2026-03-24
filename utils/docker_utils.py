@@ -4,7 +4,7 @@ import os
 import tarfile
 import threading
 import warnings
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Optional, Union
 
 import docker
@@ -118,7 +118,10 @@ def build_container(
             detach=True,
             tty=True,
             stdin_open=True,
-            network_mode="host",
+            extra_hosts={"host.docker.internal": "host-gateway"},
+            environment={
+                "OLLAMA_HOST": "http://host.docker.internal:11434",
+            },
             volumes={
                 os.path.abspath(repo_path): {"bind": f"/{REPO_NAME}", "mode": "rw"}
             },
@@ -136,7 +139,7 @@ def copy_to_container(
     container, source_path: Union[str, Path], dest_path: Union[str, Path], verbose=True
 ) -> None:
     source_path = Path(source_path)
-    dest_path = Path(dest_path)
+    dest_path = PurePosixPath(dest_path)
 
     try:
         if not source_path.exists():
@@ -185,7 +188,7 @@ def copy_to_container(
 def copy_from_container(
     container, source_path: Union[str, Path], dest_path: Union[str, Path], verbose=True
 ) -> None:
-    source_path = Path(source_path)
+    source_path = PurePosixPath(source_path)
     dest_path = Path(dest_path)
 
     try:
