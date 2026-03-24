@@ -157,6 +157,18 @@ def setup_initial_gen(output_dir, domains, resume=False):
 
     shutil.copytree("./", root_dir, dirs_exist_ok=True, ignore=ignore_function)
 
+    # Initialize git repo in the copied directory
+    import subprocess
+    subprocess.run(["git", "init"], cwd=root_dir, capture_output=True)
+    subprocess.run(
+        ["git", "-C", root_dir, "config", "user.name", "codeforge"],
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "-C", root_dir, "config", "user.email", "codeforge@local"],
+        capture_output=True,
+    )
+
     readme_path = os.path.join(root_dir, "README.md")
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write("""# CodeForge - Self-Improving Coding Agent

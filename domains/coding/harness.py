@@ -23,29 +23,28 @@ def load_dataset(num_samples=-1):
 
 
 def run_solution_in_docker(client, solution_code, test_code, timeout=30):
+    container = None
     try:
+        import io
+        import tarfile
+
+        # Start container with idle command so it stays alive
         container = client.containers.run(
             image="codeforge-runner",
-            command=["pytest", "-v", "--tb=short", "/sandbox/test_solution.py"],
-            volumes={},
+            command=["tail", "-f", "/dev/null"],
             detach=True,
             network_disabled=True,
             mem_limit="256m",
         )
 
         # Copy solution and test files into container
-        import io
-        import tarfile
-
         tar_stream = io.BytesIO()
         with tarfile.open(fileobj=tar_stream, mode="w") as tar:
-            # Add solution.py
             sol_data = solution_code.encode("utf-8")
             sol_info = tarfile.TarInfo(name="solution.py")
             sol_info.size = len(sol_data)
             tar.addfile(sol_info, io.BytesIO(sol_data))
 
-            # Add test_solution.py
             test_data = test_code.encode("utf-8")
             test_info = tarfile.TarInfo(name="test_solution.py")
             test_info.size = len(test_data)
@@ -56,7 +55,7 @@ def run_solution_in_docker(client, solution_code, test_code, timeout=30):
 
         # Execute tests
         exit_code, output = container.exec_run(
-            ["pytest", "-v", "--tb=short", "/sandbox/test_solution.py"],
+            ["timeout", str(timeout), "pytest", "-v", "--tb=short", "/sandbox/test_solution.py"],
             workdir="/sandbox",
         )
 
@@ -67,9 +66,6 @@ def run_solution_in_docker(client, solution_code, test_code, timeout=30):
         failed = output_text.count(" FAILED")
         errors = output_text.count(" ERROR")
         total = passed + failed + errors
-
-        container.stop(timeout=5)
-        container.remove(force=True)
 
         return {
             "passed": passed,
@@ -89,6 +85,14 @@ def run_solution_in_docker(client, solution_code, test_code, timeout=30):
             "output": str(e)[:2000],
             "exit_code": -1,
         }
+
+    finally:
+        if container:
+            try:
+                container.stop(timeout=5)
+                container.remove(force=True)
+            except Exception:
+                pass
 
 
 def evaluate_problem(problem, agent_path, docker_client):
