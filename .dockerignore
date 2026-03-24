@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+.env
+outputs/
+venv/
+*.z0*
+*.zip
+.git
+.claude/
+Dockerfile*
+.dockerignore

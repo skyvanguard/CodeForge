@@ -1,0 +1,352 @@
+[
+  {
+    "problem_id": "two_sum",
+    "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. Return the answer as a list of two indices.",
+    "function_signature": "def two_sum(nums: list[int], target: int) -> list[int]:",
+    "test_code": "from solution import two_sum\n\ndef test_basic():\n    result = two_sum([2, 7, 11, 15], 9)\n    assert sorted(result) == [0, 1]\n\ndef test_negative():\n    result = two_sum([-1, -2, -3, -4, -5], -8)\n    assert sorted(result) == [2, 4]\n\ndef test_zero():\n    result = two_sum([0, 4, 3, 0], 0)\n    assert sorted(result) == [0, 3]",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "is_palindrome",
+    "description": "Given a string s, return True if it is a palindrome (reads the same forwards and backwards), considering only alphanumeric characters and ignoring cases. Return False otherwise.",
+    "function_signature": "def is_palindrome(s: str) -> bool:",
+    "test_code": "from solution import is_palindrome\n\ndef test_basic():\n    assert is_palindrome('A man, a plan, a canal: Panama') == True\n\ndef test_not_palindrome():\n    assert is_palindrome('race a car') == False\n\ndef test_empty():\n    assert is_palindrome('') == True\n\ndef test_single():\n    assert is_palindrome(' ') == True",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "reverse_string",
+    "description": "Write a function that reverses a string. The input string is given as a list of characters. Do not allocate extra space for another array; modify the input list in-place with O(1) extra memory. Return the modified list.",
+    "function_signature": "def reverse_string(s: list[str]) -> list[str]:",
+    "test_code": "from solution import reverse_string\n\ndef test_basic():\n    assert reverse_string(['h','e','l','l','o']) == ['o','l','l','e','h']\n\ndef test_single():\n    assert reverse_string(['H']) == ['H']\n\ndef test_two():\n    assert reverse_string(['a','b']) == ['b','a']",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "fizzbuzz",
+    "description": "Given an integer n, return a list of strings where for each number from 1 to n: if the number is divisible by 3, use 'Fizz'; if divisible by 5, use 'Buzz'; if divisible by both 3 and 5, use 'FizzBuzz'; otherwise use the string representation of the number.",
+    "function_signature": "def fizzbuzz(n: int) -> list[str]:",
+    "test_code": "from solution import fizzbuzz\n\ndef test_fifteen():\n    result = fizzbuzz(15)\n    assert result[0] == '1'\n    assert result[2] == 'Fizz'\n    assert result[4] == 'Buzz'\n    assert result[14] == 'FizzBuzz'\n\ndef test_one():\n    assert fizzbuzz(1) == ['1']\n\ndef test_three():\n    assert fizzbuzz(3) == ['1', '2', 'Fizz']",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "max_subarray",
+    "description": "Given an integer array nums, find the subarray with the largest sum, and return its sum.",
+    "function_signature": "def max_subarray(nums: list[int]) -> int:",
+    "test_code": "from solution import max_subarray\n\ndef test_basic():\n    assert max_subarray([-2,1,-3,4,-1,2,1,-5,4]) == 6\n\ndef test_single():\n    assert max_subarray([1]) == 1\n\ndef test_negative():\n    assert max_subarray([-1]) == -1\n\ndef test_all_negative():\n    assert max_subarray([-2,-1,-3]) == -1",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "valid_parentheses",
+    "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. An input string is valid if: open brackets are closed by the same type of brackets, and open brackets are closed in the correct order.",
+    "function_signature": "def valid_parentheses(s: str) -> bool:",
+    "test_code": "from solution import valid_parentheses\n\ndef test_simple():\n    assert valid_parentheses('()') == True\n\ndef test_multiple():\n    assert valid_parentheses('()[]{}') == True\n\ndef test_invalid():\n    assert valid_parentheses('(]') == False\n\ndef test_nested():\n    assert valid_parentheses('{[]}') == True\n\ndef test_incomplete():\n    assert valid_parentheses('((') == False",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "roman_to_integer",
+    "description": "Given a roman numeral string, convert it to an integer. Roman numerals: I=1, V=5, X=10, L=50, C=100, D=500, M=1000. Subtraction rules apply (e.g., IV=4, IX=9).",
+    "function_signature": "def roman_to_int(s: str) -> int:",
+    "test_code": "from solution import roman_to_int\n\ndef test_three():\n    assert roman_to_int('III') == 3\n\ndef test_fifty_eight():\n    assert roman_to_int('LVIII') == 58\n\ndef test_1994():\n    assert roman_to_int('MCMXCIV') == 1994\n\ndef test_four():\n    assert roman_to_int('IV') == 4",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "contains_duplicate",
+    "description": "Given an integer array nums, return True if any value appears at least twice in the array, and return False if every element is distinct.",
+    "function_signature": "def contains_duplicate(nums: list[int]) -> bool:",
+    "test_code": "from solution import contains_duplicate\n\ndef test_has_dup():\n    assert contains_duplicate([1,2,3,1]) == True\n\ndef test_no_dup():\n    assert contains_duplicate([1,2,3,4]) == False\n\ndef test_many_dups():\n    assert contains_duplicate([1,1,1,3,3,4,3,2,4,2]) == True",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "merge_sorted_arrays",
+    "description": "You are given two integer arrays nums1 and nums2, sorted in non-decreasing order. Merge nums2 into nums1 as one sorted array and return it. nums1 has enough space at the end to hold elements from nums2. m and n represent the number of real elements in nums1 and nums2 respectively.",
+    "function_signature": "def merge(nums1: list[int], m: int, nums2: list[int], n: int) -> list[int]:",
+    "test_code": "from solution import merge\n\ndef test_basic():\n    assert merge([1,2,3,0,0,0], 3, [2,5,6], 3) == [1,2,2,3,5,6]\n\ndef test_single():\n    assert merge([1], 1, [], 0) == [1]\n\ndef test_empty_first():\n    assert merge([0], 0, [1], 1) == [1]",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "count_chars",
+    "description": "Given a string, return a dictionary with each character as a key and its count as the value. Include spaces and punctuation.",
+    "function_signature": "def count_chars(s: str) -> dict:",
+    "test_code": "from solution import count_chars\n\ndef test_basic():\n    result = count_chars('hello')\n    assert result == {'h': 1, 'e': 1, 'l': 2, 'o': 1}\n\ndef test_empty():\n    assert count_chars('') == {}\n\ndef test_spaces():\n    result = count_chars('a a')\n    assert result == {'a': 2, ' ': 1}",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "fibonacci",
+    "description": "Given n, return the nth Fibonacci number. F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2) for n > 1.",
+    "function_signature": "def fibonacci(n: int) -> int:",
+    "test_code": "from solution import fibonacci\n\ndef test_zero():\n    assert fibonacci(0) == 0\n\ndef test_one():\n    assert fibonacci(1) == 1\n\ndef test_ten():\n    assert fibonacci(10) == 55\n\ndef test_twenty():\n    assert fibonacci(20) == 6765",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "power_of_two",
+    "description": "Given an integer n, return True if it is a power of two, otherwise return False. An integer n is a power of two if there exists an integer x such that n == 2^x.",
+    "function_signature": "def is_power_of_two(n: int) -> bool:",
+    "test_code": "from solution import is_power_of_two\n\ndef test_one():\n    assert is_power_of_two(1) == True\n\ndef test_sixteen():\n    assert is_power_of_two(16) == True\n\ndef test_three():\n    assert is_power_of_two(3) == False\n\ndef test_zero():\n    assert is_power_of_two(0) == False\n\ndef test_negative():\n    assert is_power_of_two(-2) == False",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "missing_number",
+    "description": "Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.",
+    "function_signature": "def missing_number(nums: list[int]) -> int:",
+    "test_code": "from solution import missing_number\n\ndef test_basic():\n    assert missing_number([3, 0, 1]) == 2\n\ndef test_sequence():\n    assert missing_number([0, 1]) == 2\n\ndef test_larger():\n    assert missing_number([9,6,4,2,3,5,7,0,1]) == 8",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "move_zeroes",
+    "description": "Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements. Return the modified array. Do this in-place.",
+    "function_signature": "def move_zeroes(nums: list[int]) -> list[int]:",
+    "test_code": "from solution import move_zeroes\n\ndef test_basic():\n    assert move_zeroes([0,1,0,3,12]) == [1,3,12,0,0]\n\ndef test_single_zero():\n    assert move_zeroes([0]) == [0]\n\ndef test_no_zeroes():\n    assert move_zeroes([1,2,3]) == [1,2,3]",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "single_number",
+    "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one. You must implement a solution with O(n) time and O(1) space.",
+    "function_signature": "def single_number(nums: list[int]) -> int:",
+    "test_code": "from solution import single_number\n\ndef test_basic():\n    assert single_number([2,2,1]) == 1\n\ndef test_longer():\n    assert single_number([4,1,2,1,2]) == 4\n\ndef test_single():\n    assert single_number([1]) == 1",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "climbing_stairs",
+    "description": "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
+    "function_signature": "def climb_stairs(n: int) -> int:",
+    "test_code": "from solution import climb_stairs\n\ndef test_two():\n    assert climb_stairs(2) == 2\n\ndef test_three():\n    assert climb_stairs(3) == 3\n\ndef test_five():\n    assert climb_stairs(5) == 8\n\ndef test_one():\n    assert climb_stairs(1) == 1",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "remove_duplicates",
+    "description": "Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. Return the list of unique elements.",
+    "function_signature": "def remove_duplicates(nums: list[int]) -> list[int]:",
+    "test_code": "from solution import remove_duplicates\n\ndef test_basic():\n    assert remove_duplicates([1,1,2]) == [1,2]\n\ndef test_longer():\n    assert remove_duplicates([0,0,1,1,1,2,2,3,3,4]) == [0,1,2,3,4]\n\ndef test_single():\n    assert remove_duplicates([1]) == [1]",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "plus_one",
+    "description": "You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. Increment the large integer by one and return the resulting array of digits.",
+    "function_signature": "def plus_one(digits: list[int]) -> list[int]:",
+    "test_code": "from solution import plus_one\n\ndef test_basic():\n    assert plus_one([1,2,3]) == [1,2,4]\n\ndef test_carry():\n    assert plus_one([9]) == [1,0]\n\ndef test_all_nines():\n    assert plus_one([9,9,9]) == [1,0,0,0]\n\ndef test_zero():\n    assert plus_one([0]) == [1]",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "intersection_arrays",
+    "description": "Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays. You may return the result in any order.",
+    "function_signature": "def intersect(nums1: list[int], nums2: list[int]) -> list[int]:",
+    "test_code": "from solution import intersect\n\ndef test_basic():\n    assert sorted(intersect([1,2,2,1], [2,2])) == [2,2]\n\ndef test_mixed():\n    assert sorted(intersect([4,9,5], [9,4,9,8,4])) == [4,9]\n\ndef test_no_intersection():\n    assert intersect([1,2,3], [4,5,6]) == []",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "best_time_stock",
+    "description": "You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy and a single day to sell. Return the maximum profit you can achieve. If you cannot achieve any profit, return 0.",
+    "function_signature": "def max_profit(prices: list[int]) -> int:",
+    "test_code": "from solution import max_profit\n\ndef test_basic():\n    assert max_profit([7,1,5,3,6,4]) == 5\n\ndef test_decreasing():\n    assert max_profit([7,6,4,3,1]) == 0\n\ndef test_single():\n    assert max_profit([1]) == 0",
+    "difficulty": "easy"
+  },
+  {
+    "problem_id": "binary_search",
+    "description": "Given a sorted array of integers nums and a target value, return the index if the target is found. If not, return -1. You must write an algorithm with O(log n) runtime complexity.",
+    "function_signature": "def binary_search(nums: list[int], target: int) -> int:",
+    "test_code": "from solution import binary_search\n\ndef test_found():\n    assert binary_search([-1,0,3,5,9,12], 9) == 4\n\ndef test_not_found():\n    assert binary_search([-1,0,3,5,9,12], 2) == -1\n\ndef test_single_found():\n    assert binary_search([5], 5) == 0\n\ndef test_single_not_found():\n    assert binary_search([5], 1) == -1",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "merge_sort",
+    "description": "Implement the merge sort algorithm. Given an array of integers, return a new sorted array using merge sort.",
+    "function_signature": "def merge_sort(arr: list[int]) -> list[int]:",
+    "test_code": "from solution import merge_sort\n\ndef test_basic():\n    assert merge_sort([38, 27, 43, 3, 9, 82, 10]) == [3, 9, 10, 27, 38, 43, 82]\n\ndef test_empty():\n    assert merge_sort([]) == []\n\ndef test_single():\n    assert merge_sort([1]) == [1]\n\ndef test_reversed():\n    assert merge_sort([5,4,3,2,1]) == [1,2,3,4,5]\n\ndef test_duplicates():\n    assert merge_sort([3,1,2,3,1]) == [1,1,2,3,3]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "group_anagrams",
+    "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order. An anagram is a word formed by rearranging the letters of a different word.",
+    "function_signature": "def group_anagrams(strs: list[str]) -> list[list[str]]:",
+    "test_code": "from solution import group_anagrams\n\ndef test_basic():\n    result = group_anagrams(['eat','tea','tan','ate','nat','bat'])\n    result = [sorted(group) for group in result]\n    result.sort()\n    assert result == [['ate','eat','tea'], ['bat'], ['nat','tan']]\n\ndef test_empty_string():\n    result = group_anagrams([''])\n    assert result == [['']]\n\ndef test_single():\n    result = group_anagrams(['a'])\n    assert result == [['a']]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "three_sum",
+    "description": "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0. The solution set must not contain duplicate triplets.",
+    "function_signature": "def three_sum(nums: list[int]) -> list[list[int]]:",
+    "test_code": "from solution import three_sum\n\ndef test_basic():\n    result = [sorted(t) for t in three_sum([-1,0,1,2,-1,-4])]\n    result.sort()\n    assert result == [[-1,-1,2],[-1,0,1]]\n\ndef test_no_solution():\n    assert three_sum([0,1,1]) == []\n\ndef test_all_zeros():\n    assert three_sum([0,0,0]) == [[0,0,0]]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "longest_substring",
+    "description": "Given a string s, find the length of the longest substring without repeating characters.",
+    "function_signature": "def length_of_longest_substring(s: str) -> int:",
+    "test_code": "from solution import length_of_longest_substring\n\ndef test_basic():\n    assert length_of_longest_substring('abcabcbb') == 3\n\ndef test_repeat():\n    assert length_of_longest_substring('bbbbb') == 1\n\ndef test_mixed():\n    assert length_of_longest_substring('pwwkew') == 3\n\ndef test_empty():\n    assert length_of_longest_substring('') == 0",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "product_except_self",
+    "description": "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]. You must write an algorithm that runs in O(n) time and without using the division operation.",
+    "function_signature": "def product_except_self(nums: list[int]) -> list[int]:",
+    "test_code": "from solution import product_except_self\n\ndef test_basic():\n    assert product_except_self([1,2,3,4]) == [24,12,8,6]\n\ndef test_with_zero():\n    assert product_except_self([-1,1,0,-3,3]) == [0,0,9,0,0]\n\ndef test_two():\n    assert product_except_self([2,3]) == [3,2]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "container_with_most_water",
+    "description": "You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]). Find two lines that together with the x-axis form a container that holds the most water. Return the maximum amount of water a container can store.",
+    "function_signature": "def max_area(height: list[int]) -> int:",
+    "test_code": "from solution import max_area\n\ndef test_basic():\n    assert max_area([1,8,6,2,5,4,8,3,7]) == 49\n\ndef test_two():\n    assert max_area([1,1]) == 1\n\ndef test_decreasing():\n    assert max_area([4,3,2,1,4]) == 16",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "matrix_rotate",
+    "description": "You are given an n x n 2D matrix representing an image. Rotate the image by 90 degrees clockwise. Return the rotated matrix.",
+    "function_signature": "def rotate(matrix: list[list[int]]) -> list[list[int]]:",
+    "test_code": "from solution import rotate\n\ndef test_3x3():\n    assert rotate([[1,2,3],[4,5,6],[7,8,9]]) == [[7,4,1],[8,5,2],[9,6,3]]\n\ndef test_2x2():\n    assert rotate([[1,2],[3,4]]) == [[3,1],[4,2]]\n\ndef test_1x1():\n    assert rotate([[1]]) == [[1]]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "spiral_matrix",
+    "description": "Given an m x n matrix, return all elements of the matrix in spiral order as a list.",
+    "function_signature": "def spiral_order(matrix: list[list[int]]) -> list[int]:",
+    "test_code": "from solution import spiral_order\n\ndef test_3x3():\n    assert spiral_order([[1,2,3],[4,5,6],[7,8,9]]) == [1,2,3,6,9,8,7,4,5]\n\ndef test_3x4():\n    assert spiral_order([[1,2,3,4],[5,6,7,8],[9,10,11,12]]) == [1,2,3,4,8,12,11,10,9,5,6,7]\n\ndef test_1x1():\n    assert spiral_order([[1]]) == [1]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "longest_common_prefix",
+    "description": "Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string.",
+    "function_signature": "def longest_common_prefix(strs: list[str]) -> str:",
+    "test_code": "from solution import longest_common_prefix\n\ndef test_basic():\n    assert longest_common_prefix(['flower','flow','flight']) == 'fl'\n\ndef test_no_common():\n    assert longest_common_prefix(['dog','racecar','car']) == ''\n\ndef test_single():\n    assert longest_common_prefix(['alone']) == 'alone'\n\ndef test_identical():\n    assert longest_common_prefix(['aa','aa','aa']) == 'aa'",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "generate_parentheses",
+    "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses. Return them sorted.",
+    "function_signature": "def generate_parenthesis(n: int) -> list[str]:",
+    "test_code": "from solution import generate_parenthesis\n\ndef test_three():\n    result = sorted(generate_parenthesis(3))\n    assert result == ['((()))','(()())','(())()','()(())','()()()']\n\ndef test_one():\n    assert generate_parenthesis(1) == ['()']\n\ndef test_two():\n    result = sorted(generate_parenthesis(2))\n    assert result == ['(())','()()']",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "letter_combinations",
+    "description": "Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent (like on a phone keypad). Return the answer in any order. Mapping: 2->abc, 3->def, 4->ghi, 5->jkl, 6->mno, 7->pqrs, 8->tuv, 9->wxyz",
+    "function_signature": "def letter_combinations(digits: str) -> list[str]:",
+    "test_code": "from solution import letter_combinations\n\ndef test_basic():\n    result = sorted(letter_combinations('23'))\n    assert result == sorted(['ad','ae','af','bd','be','bf','cd','ce','cf'])\n\ndef test_empty():\n    assert letter_combinations('') == []\n\ndef test_single():\n    assert sorted(letter_combinations('2')) == ['a','b','c']",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "valid_sudoku",
+    "description": "Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the rules: each row, column, and 3x3 sub-box must contain the digits 1-9 without repetition. Use '.' for empty cells.",
+    "function_signature": "def is_valid_sudoku(board: list[list[str]]) -> bool:",
+    "test_code": "from solution import is_valid_sudoku\n\ndef test_valid():\n    board = [['5','3','.','.','7','.','.','.','.'],['6','.','.','1','9','5','.','.','.'],['.','9','8','.','.','.','.','6','.'],['8','.','.','.','6','.','.','.','3'],['4','.','.','8','.','3','.','.','1'],['7','.','.','.','2','.','.','.','6'],['.','6','.','.','.','.','2','8','.'],['.','.','.','4','1','9','.','.','5'],['.','.','.','.','8','.','.','7','9']]\n    assert is_valid_sudoku(board) == True\n\ndef test_invalid():\n    board = [['8','3','.','.','7','.','.','.','.'],['6','.','.','1','9','5','.','.','.'],['.','9','8','.','.','.','.','6','.'],['8','.','.','.','6','.','.','.','3'],['4','.','.','8','.','3','.','.','1'],['7','.','.','.','2','.','.','.','6'],['.','6','.','.','.','.','2','8','.'],['.','.','.','4','1','9','.','.','5'],['.','.','.','.','8','.','.','7','9']]\n    assert is_valid_sudoku(board) == False",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "top_k_frequent",
+    "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.",
+    "function_signature": "def top_k_frequent(nums: list[int], k: int) -> list[int]:",
+    "test_code": "from solution import top_k_frequent\n\ndef test_basic():\n    assert sorted(top_k_frequent([1,1,1,2,2,3], 2)) == [1,2]\n\ndef test_single():\n    assert top_k_frequent([1], 1) == [1]\n\ndef test_all_same():\n    assert top_k_frequent([3,3,3,3], 1) == [3]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "coin_change",
+    "description": "You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money. Return the fewest number of coins needed to make up that amount. If that amount cannot be made up, return -1.",
+    "function_signature": "def coin_change(coins: list[int], amount: int) -> int:",
+    "test_code": "from solution import coin_change\n\ndef test_basic():\n    assert coin_change([1,2,5], 11) == 3\n\ndef test_impossible():\n    assert coin_change([2], 3) == -1\n\ndef test_zero():\n    assert coin_change([1], 0) == 0\n\ndef test_single_coin():\n    assert coin_change([1], 2) == 2",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "lru_cache",
+    "description": "Implement a Least Recently Used (LRU) cache. Implement the class LRUCache with: __init__(capacity), get(key) returns value or -1, put(key, value) adds or updates, evicts least recently used when capacity exceeded. get and put must each run in O(1) average time.",
+    "function_signature": "class LRUCache:\n    def __init__(self, capacity: int):\n        pass\n    def get(self, key: int) -> int:\n        pass\n    def put(self, key: int, value: int) -> None:\n        pass",
+    "test_code": "from solution import LRUCache\n\ndef test_basic():\n    cache = LRUCache(2)\n    cache.put(1, 1)\n    cache.put(2, 2)\n    assert cache.get(1) == 1\n    cache.put(3, 3)\n    assert cache.get(2) == -1\n    cache.put(4, 4)\n    assert cache.get(1) == -1\n    assert cache.get(3) == 3\n    assert cache.get(4) == 4\n\ndef test_update():\n    cache = LRUCache(1)\n    cache.put(1, 1)\n    cache.put(1, 10)\n    assert cache.get(1) == 10",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "word_break",
+    "description": "Given a string s and a dictionary of strings wordDict, return True if s can be segmented into a space-separated sequence of one or more dictionary words.",
+    "function_signature": "def word_break(s: str, wordDict: list[str]) -> bool:",
+    "test_code": "from solution import word_break\n\ndef test_basic():\n    assert word_break('leetcode', ['leet','code']) == True\n\ndef test_repeat():\n    assert word_break('applepenapple', ['apple','pen']) == True\n\ndef test_impossible():\n    assert word_break('catsandog', ['cats','dog','sand','and','cat']) == False",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "decode_ways",
+    "description": "A message containing letters from A-Z can be encoded with '1'->A, '2'->B, ..., '26'->Z. Given a string s containing only digits, return the number of ways to decode it.",
+    "function_signature": "def num_decodings(s: str) -> int:",
+    "test_code": "from solution import num_decodings\n\ndef test_basic():\n    assert num_decodings('12') == 2\n\ndef test_triple():\n    assert num_decodings('226') == 3\n\ndef test_zero():\n    assert num_decodings('06') == 0\n\ndef test_single():\n    assert num_decodings('1') == 1",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "flatten_nested_list",
+    "description": "Given a nested list of integers, flatten it into a single list. The nested list may contain integers or other nested lists at any depth.",
+    "function_signature": "def flatten(nested_list: list) -> list[int]:",
+    "test_code": "from solution import flatten\n\ndef test_basic():\n    assert flatten([1, [2, 3], [4, [5, 6]]]) == [1, 2, 3, 4, 5, 6]\n\ndef test_flat():\n    assert flatten([1, 2, 3]) == [1, 2, 3]\n\ndef test_deeply_nested():\n    assert flatten([[[1]], [[2]], [[3]]]) == [1, 2, 3]\n\ndef test_empty():\n    assert flatten([]) == []",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "minimum_path_sum",
+    "description": "Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path. You can only move either down or right at any point in time.",
+    "function_signature": "def min_path_sum(grid: list[list[int]]) -> int:",
+    "test_code": "from solution import min_path_sum\n\ndef test_basic():\n    assert min_path_sum([[1,3,1],[1,5,1],[4,2,1]]) == 7\n\ndef test_two_rows():\n    assert min_path_sum([[1,2,3],[4,5,6]]) == 12\n\ndef test_single():\n    assert min_path_sum([[5]]) == 5",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "longest_palindrome_substring",
+    "description": "Given a string s, return the longest palindromic substring in s.",
+    "function_signature": "def longest_palindrome(s: str) -> str:",
+    "test_code": "from solution import longest_palindrome\n\ndef test_basic():\n    result = longest_palindrome('babad')\n    assert result in ['bab', 'aba']\n\ndef test_even():\n    assert longest_palindrome('cbbd') == 'bb'\n\ndef test_single():\n    assert longest_palindrome('a') == 'a'\n\ndef test_all_same():\n    assert longest_palindrome('aaaa') == 'aaaa'",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "trapping_rain_water",
+    "description": "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.",
+    "function_signature": "def trap(height: list[int]) -> int:",
+    "test_code": "from solution import trap\n\ndef test_basic():\n    assert trap([0,1,0,2,1,0,1,3,2,1,2,1]) == 6\n\ndef test_flat():\n    assert trap([4,2,0,3,2,5]) == 9\n\ndef test_no_trap():\n    assert trap([1,2,3,4,5]) == 0\n\ndef test_empty():\n    assert trap([]) == 0",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "merge_intervals",
+    "description": "Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.",
+    "function_signature": "def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:",
+    "test_code": "from solution import merge_intervals\n\ndef test_basic():\n    assert merge_intervals([[1,3],[2,6],[8,10],[15,18]]) == [[1,6],[8,10],[15,18]]\n\ndef test_overlap():\n    assert merge_intervals([[1,4],[4,5]]) == [[1,5]]\n\ndef test_single():\n    assert merge_intervals([[1,2]]) == [[1,2]]",
+    "difficulty": "medium"
+  },
+  {
+    "problem_id": "word_search",
+    "description": "Given an m x n grid of characters board and a string word, return True if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells (horizontally or vertically). The same letter cell may not be used more than once.",
+    "function_signature": "def exist(board: list[list[str]], word: str) -> bool:",
+    "test_code": "from solution import exist\n\ndef test_found():\n    board = [['A','B','C','E'],['S','F','C','S'],['A','D','E','E']]\n    assert exist(board, 'ABCCED') == True\n\ndef test_found_2():\n    board = [['A','B','C','E'],['S','F','C','S'],['A','D','E','E']]\n    assert exist(board, 'SEE') == True\n\ndef test_not_found():\n    board = [['A','B','C','E'],['S','F','C','S'],['A','D','E','E']]\n    assert exist(board, 'ABCB') == False",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "median_sorted_arrays",
+    "description": "Given two sorted arrays nums1 and nums2, return the median of the two sorted arrays. The overall run time complexity should be O(log(m+n)).",
+    "function_signature": "def find_median_sorted_arrays(nums1: list[int], nums2: list[int]) -> float:",
+    "test_code": "from solution import find_median_sorted_arrays\n\ndef test_basic():\n    assert find_median_sorted_arrays([1,3], [2]) == 2.0\n\ndef test_even():\n    assert find_median_sorted_arrays([1,2], [3,4]) == 2.5\n\ndef test_empty():\n    assert find_median_sorted_arrays([], [1]) == 1.0",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "longest_increasing_subsequence",
+    "description": "Given an integer array nums, return the length of the longest strictly increasing subsequence.",
+    "function_signature": "def length_of_lis(nums: list[int]) -> int:",
+    "test_code": "from solution import length_of_lis\n\ndef test_basic():\n    assert length_of_lis([10,9,2,5,3,7,101,18]) == 4\n\ndef test_increasing():\n    assert length_of_lis([0,1,0,3,2,3]) == 4\n\ndef test_constant():\n    assert length_of_lis([7,7,7,7,7,7,7]) == 1",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "max_subarray_product",
+    "description": "Given an integer array nums, find a subarray that has the largest product, and return the product.",
+    "function_signature": "def max_product(nums: list[int]) -> int:",
+    "test_code": "from solution import max_product\n\ndef test_basic():\n    assert max_product([2,3,-2,4]) == 6\n\ndef test_negative():\n    assert max_product([-2,0,-1]) == 0\n\ndef test_single():\n    assert max_product([-2]) == -2\n\ndef test_all_negative():\n    assert max_product([-2,-3,-4]) == 12",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "edit_distance",
+    "description": "Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2. You have the following three operations: Insert a character, Delete a character, Replace a character.",
+    "function_signature": "def min_distance(word1: str, word2: str) -> int:",
+    "test_code": "from solution import min_distance\n\ndef test_basic():\n    assert min_distance('horse', 'ros') == 3\n\ndef test_longer():\n    assert min_distance('intention', 'execution') == 5\n\ndef test_empty():\n    assert min_distance('', 'abc') == 3\n\ndef test_same():\n    assert min_distance('abc', 'abc') == 0",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "serialize_binary_tree",
+    "description": "Design an algorithm to serialize and deserialize a binary tree. Implement serialize(root) that converts a tree to a string, and deserialize(data) that converts a string back to the original tree structure. Use a simple Node class with val, left, right attributes.",
+    "function_signature": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef serialize(root) -> str:\n    pass\n\ndef deserialize(data) -> 'TreeNode | None':\n    pass",
+    "test_code": "from solution import TreeNode, serialize, deserialize\n\ndef test_basic():\n    root = TreeNode(1, TreeNode(2), TreeNode(3, TreeNode(4), TreeNode(5)))\n    data = serialize(root)\n    new_root = deserialize(data)\n    assert new_root.val == 1\n    assert new_root.left.val == 2\n    assert new_root.right.val == 3\n    assert new_root.right.left.val == 4\n    assert new_root.right.right.val == 5\n\ndef test_none():\n    data = serialize(None)\n    assert deserialize(data) is None\n\ndef test_single():\n    root = TreeNode(42)\n    data = serialize(root)\n    new_root = deserialize(data)\n    assert new_root.val == 42\n    assert new_root.left is None\n    assert new_root.right is None",
+    "difficulty": "hard"
+  },
+  {
+    "problem_id": "min_window_substring",
+    "description": "Given two strings s and t, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string.",
+    "function_signature": "def min_window(s: str, t: str) -> str:",
+    "test_code": "from solution import min_window\n\ndef test_basic():\n    assert min_window('ADOBECODEBANC', 'ABC') == 'BANC'\n\ndef test_single():\n    assert min_window('a', 'a') == 'a'\n\ndef test_not_found():\n    assert min_window('a', 'aa') == ''\n\ndef test_same():\n    assert min_window('abc', 'abc') == 'abc'",
+    "difficulty": "hard"
+  }
+]
